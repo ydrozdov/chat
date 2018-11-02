@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, ViewChild, AfterViewInit, QueryList, ElementRef} from '@angular/core';
 import { DialogComponent } from './dialog/dialog.component';
 import {MatList, MatListItem} from '@angular/material';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
@@ -22,6 +22,16 @@ export class ChatComponent implements OnInit {
   constructor(private dialog: MatDialog,
     private messageService: MessageService
     ) { 
+  }
+
+  @ViewChild(MatList, { read: ElementRef }) matList: ElementRef;
+  @ViewChildren(MatListItem, { read: ElementRef }) matListItems: QueryList<MatListItem>;
+
+  ngAfterViewInit(): void {
+    // subscribing to any changes in the list of items / messages
+    this.matListItems.changes.subscribe(elements => {
+      this.scrollToBottom();
+    });
   }
 
   ngOnInit() {
@@ -58,5 +68,12 @@ export class ChatComponent implements OnInit {
       });
 
     });
+  }
+  
+  private scrollToBottom(): void {
+    try {
+      this.matList.nativeElement.scrollTop = this.matList.nativeElement.scrollHeight;
+    } catch (err) {
+    }
   }
 }

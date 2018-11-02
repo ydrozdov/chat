@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dialog',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent implements OnInit {
+  usernameFormControl : FormControl = new FormControl('', [Validators.required]);
+  username: string;
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<DialogComponent>) { 
+  }
 
   ngOnInit() {
   }
-
+  
 }

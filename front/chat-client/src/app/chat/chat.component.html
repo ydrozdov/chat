@@ -1,3 +1,23 @@
-<p>
-  chat works!
-</p>
+<div class="chat-container">
+  <mat-card class="main-card">
+    <mat-list class="chat-list">
+      <mat-list-item *ngFor="let message of messages" [ngClass]="[(message.sender === username)? 'your-item': '']">
+        <p mat-line *ngIf="message.sender===username">You</p>
+        <p mat-line *ngIf="message.sender!==username">{{message.sender}}</p>
+        <p mat-line>{{message.content}}</p>
+        <p mat-line>{{message.created | date : "d MMM y h:mm"}}</p>
+      </mat-list-item>
+    </mat-list>
+    <div class="chat-footer-container">
+      <mat-form-field class="chat-input">
+        <input matInput 
+               #inputMessage 
+               [(ngModel)]="messageContent" 
+               (keyup.enter)="sendMessage()"
+        >
+      </mat-form-field>
+      <button mat-button (click)="sendMessage()">Send</button>
+    </div>
+    
+  </mat-card>
+</div>
